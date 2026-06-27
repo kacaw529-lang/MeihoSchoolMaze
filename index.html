@@ -56,7 +56,8 @@ p{margin-bottom:14px;color:#d7e6ea}
 .typing i:nth-child(2){animation-delay:.2s}.typing i:nth-child(3){animation-delay:.4s}
 @keyframes blink{0%,100%{opacity:.25;transform:translateY(0)}50%{opacity:1;transform:translateY(-3px)}}
 #composer{position:sticky;bottom:0;padding:10px 0 4px;background:linear-gradient(transparent,var(--abyss) 22%)}
-.hint-img{width:100%;max-width:300px;margin:6px auto 16px;display:block;border-radius:12px;border:1px solid rgba(143,179,191,.3);background:rgba(7,26,43,.5)}
+.hint-img{width:100%;max-width:300px;margin:6px auto 16px;display:block;border-radius:12px;border:1px solid rgba(143,179,191,.3);background:rgba(28,35,48,.5)}
+.hint-img svg{width:100%;height:auto;display:block;border-radius:12px}
 .btn{font-family:var(--sans);font-weight:700;font-size:16px;border:none;cursor:pointer;padding:15px 22px;border-radius:12px;width:100%;margin-top:10px;transition:.2s;letter-spacing:.5px}
 .btn-go{background:linear-gradient(135deg,var(--aqua),var(--teal));color:#fff;box-shadow:0 6px 20px rgba(42,157,181,.35)}
 .btn-go:active{transform:translateY(2px)}
@@ -98,7 +99,7 @@ label.lbl{display:block;font-size:13px;color:var(--muted);margin-top:16px;letter
 #flood .ttl .k{font-family:var(--mono);font-size:12px;letter-spacing:4px;color:var(--glow)}
 #flood .ttl h1{font-family:var(--serif);font-weight:900;font-size:clamp(30px,9vw,46px);text-shadow:0 2px 24px rgba(0,0,0,.6)}
 #flood .skip{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:12px;color:var(--muted);background:none;border:none;cursor:pointer;letter-spacing:2px;z-index:3}
-#testToggle{position:fixed;right:14px;bottom:14px;z-index:40;width:50px;height:50px;border-radius:50%;border:1px solid rgba(95,227,208,.5);background:rgba(13,43,62,.9);color:var(--glow);font-size:20px;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.4)}
+#testToggle{position:fixed;right:14px;bottom:14px;z-index:40;width:50px;height:50px;border-radius:50%;border:1px solid rgba(95,227,208,.5);background:rgba(13,43,62,.9);color:var(--glow);font-size:20px;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.4);display:none}
 #muteBtn{position:fixed;left:14px;bottom:14px;z-index:40;width:46px;height:46px;border-radius:50%;border:1px solid rgba(217,165,49,.5);background:rgba(28,35,48,.92);color:var(--gold);font-size:19px;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.4)}
 #testPanel{position:fixed;right:14px;bottom:74px;z-index:40;width:min(330px,92vw);max-height:74vh;overflow:auto;display:none;border-radius:14px;padding:16px;background:rgba(7,20,33,.97);border:1px dashed var(--glow);box-shadow:0 8px 30px rgba(0,0,0,.5)}
 #testPanel h3{font-family:var(--mono);font-size:12px;letter-spacing:2px;color:var(--glow);margin-bottom:6px;text-transform:uppercase}
@@ -210,15 +211,22 @@ const DEFAULT_STORY = {
 let STORY = DEFAULT_STORY;   // 可被外部故事包（編輯後台或 skill 匯出的 JSON）取代
 
 const SVGS = {
-  drops:`<svg viewBox="0 0 120 90"><g fill="#5fe3d0" opacity=".85"><path d="M40 20c0 8-6 12-6 18a6 6 0 0012 0c0-6-6-10-6-18z"/><path d="M70 14c0 10-8 15-8 23a8 8 0 0016 0c0-8-8-13-8-23z"/><path d="M52 50c0 6-5 9-5 14a5 5 0 0010 0c0-5-5-8-5-14z"/></g></svg>`,
-  seed:`<svg viewBox="0 0 80 80"><path d="M40 70 V42" stroke="#5fe3d0" stroke-width="4"/><path d="M40 46c-12 0-18-10-18-18 12 0 18 10 18 18z" fill="#5fe3d0"/><path d="M40 50c10 0 16-8 16-15-10 0-16 7-16 15z" fill="#3fae9c"/><ellipse cx="40" cy="72" rx="14" ry="4" fill="#e0b15a"/></svg>`,
+  drops:`<svg viewBox="0 0 120 90"><g fill="#8fb6c9" opacity=".85"><path d="M40 20c0 8-6 12-6 18a6 6 0 0012 0c0-6-6-10-6-18z"/><path d="M70 14c0 10-8 15-8 23a8 8 0 0016 0c0-8-8-13-8-23z"/><path d="M52 50c0 6-5 9-5 14a5 5 0 0010 0c0-5-5-8-5-14z"/></g></svg>`,
+  seed:`<svg viewBox="0 0 80 80"><path d="M40 70 V42" stroke="#8fb6c9" stroke-width="4"/><path d="M40 46c-12 0-18-10-18-18 12 0 18 10 18 18z" fill="#8fb6c9"/><path d="M40 50c10 0 16-8 16-15-10 0-16 7-16 15z" fill="#6f9bb0"/><ellipse cx="40" cy="72" rx="14" ry="4" fill="#d9a531"/></svg>`,
   fire:`<svg viewBox="0 0 80 80"><path d="M40 12c8 14-6 16 0 30 10-4 6-14 14-10 6 14-4 36-14 36S20 52 28 36c4 6 6 2 4-6 4 2 6 6 8-18z" fill="#e07a6a"/></svg>`,
-  bolt:`<svg viewBox="0 0 80 80"><path d="M46 10 26 44h14l-8 26 30-40H46l8-20z" fill="#ffd95a"/></svg>`,
-  snow:`<svg viewBox="0 0 80 80"><g stroke="#bfe6f0" stroke-width="3"><path d="M40 12v56M16 26l48 28M64 26L16 54"/></g></svg>`,
-  shapes6:`<svg viewBox="0 0 300 150"><g stroke="#0a2233" stroke-width="2"><polygon points="35,18 55,52 15,52" fill="#e0b15a"/><polygon points="95,14 117,52 73,52" fill="#e0b15a"/><polygon points="165,20 187,55 143,55" fill="#e0b15a"/><polygon points="45,86 67,124 23,124" fill="#e0b15a"/><polygon points="120,92 142,128 98,128" fill="#e0b15a"/><polygon points="255,88 277,126 233,126" fill="#e0b15a"/><circle cx="220" cy="34" r="17" fill="#5fe3d0"/><circle cx="265" cy="40" r="14" fill="#5fe3d0"/><circle cx="195" cy="112" r="17" fill="#5fe3d0"/><rect x="178" y="78" width="34" height="34" rx="4" fill="#bfe6f0"/><rect x="232" y="16" width="30" height="30" rx="4" fill="#bfe6f0"/></g></svg>`
+  bolt:`<svg viewBox="0 0 80 80"><path d="M46 10 26 44h14l-8 26 30-40H46l8-20z" fill="#d9a531"/></svg>`,
+  snow:`<svg viewBox="0 0 80 80"><g stroke="#aac7d4" stroke-width="3"><path d="M40 12v56M16 26l48 28M64 26L16 54"/></g></svg>`,
+  shapes6:`<svg viewBox="0 0 300 150"><g stroke="#1c2330" stroke-width="2"><polygon points="35,18 55,52 15,52" fill="#d9a531"/><polygon points="95,14 117,52 73,52" fill="#d9a531"/><polygon points="165,20 187,55 143,55" fill="#d9a531"/><polygon points="45,86 67,124 23,124" fill="#d9a531"/><polygon points="120,92 142,128 98,128" fill="#d9a531"/><polygon points="255,88 277,126 233,126" fill="#d9a531"/><circle cx="220" cy="34" r="17" fill="#8fb6c9"/><circle cx="265" cy="40" r="14" fill="#8fb6c9"/><circle cx="195" cy="112" r="17" fill="#8fb6c9"/><rect x="178" y="78" width="34" height="34" rx="4" fill="#aac7d4"/><rect x="232" y="16" width="30" height="30" rx="4" fill="#aac7d4"/></g></svg>`,
+  rings:`<svg viewBox="0 0 120 90"><g fill="none" stroke="#8fb6c9" stroke-width="4"><circle cx="60" cy="45" r="10"/><circle cx="60" cy="45" r="20"/><circle cx="60" cy="45" r="30"/><circle cx="60" cy="45" r="40"/></g></svg>`,
+  steps:`<svg viewBox="0 0 120 90"><g fill="#d9a531"><rect x="14" y="62" width="26" height="16"/><rect x="40" y="46" width="26" height="32"/><rect x="66" y="30" width="26" height="48"/><rect x="92" y="14" width="14" height="64"/></g></svg>`
 };
-function svg(name){ return "data:image/svg+xml;utf8,"+encodeURIComponent((SVGS[name]||"").replace(/\n/g,"")); }
-function imgSrc(v){ return (typeof v==="string" && /^(https?:|data:)/.test(v)) ? v : svg(v); }
+function svg(name){ const s=(SVGS[name]||"").replace(/\n/g,""); return s ? "data:image/svg+xml;charset=utf-8,"+encodeURIComponent(s) : ""; }
+function imgSrc(v){ if(typeof v!=="string"||!v) return ""; return /^(https?:|data:)/.test(v) ? v : svg(v); }
+function clueImg(code){ if(typeof code!=="string"||!code) return "";
+  if(SVGS[code]) return `<div class="hint-img">${SVGS[code]}</div>`;            // 內建圖示：直接內嵌，不會破圖
+  if(/^(https?:|data:)/.test(code)) return `<img class="hint-img" src="${code}" alt="線索圖">`;
+  return ""; }
+(function(){ if(/[?&](test|teacher)=1/.test(location.search)||/(test|teacher)/.test(location.hash)){ var tb=document.getElementById("testToggle"); if(tb) tb.style.display="block"; } })();
 
 /* =========================================================================
    引擎
@@ -474,7 +482,7 @@ function renderPrologue(){
   swap(`<div class="eyebrow">序章 · 尋找起點</div><div id="chat"></div><div id="composer"></div>`);
   playQueue("#chat",[ STORY.prologue.intro ],()=>{
     const c=$("#composer"); if(!c) return;
-    c.innerHTML=`<img class="hint-img" src="${svg(f.img)}" alt="線索圖">
+    c.innerHTML=`${clueImg(f.img)}
       <div class="cluebox" id="clueBox"></div>
       <p style="text-align:center;color:var(--muted);font-size:13px;margin-top:10px">讀懂線索，走到那個地方。卡住時會慢慢給更明確的線索（記進線索簿）。</p>
       <div class="status" id="geoStatus">準備偵測位置…（到校園會自動觸發；現在可用右下角測試模式）</div>${qrControls()}`;
@@ -508,7 +516,7 @@ function startHintTimers(t){ (t.hints||[]).forEach(h=>{ hintTimers.push(setTimeo
 let chosen=null;
 function showComposer(t){
   const r=t.response; let body="";
-  if(t.image) body+=`<img class="hint-img" src="${imgSrc(t.image)}" alt="解謎線索圖">`;
+  if(t.image) body+=clueImg(t.image);
   if(r.type==="text") body+=`<textarea class="field" id="ans" placeholder="在這裡寫下答案…"></textarea><button class="btn btn-gold" onclick="submitText('${t.id}')">提交答案</button>`;
   else if(r.type==="number") body+=`<input class="field" inputmode="numeric" id="ans" placeholder="輸入數字…"><button class="btn btn-gold" onclick="submitText('${t.id}')">提交答案</button>`;
   else if(r.type==="choice") body+=`<div class="cards">${r.options.map(o=>`<div class="card" id="opt_${o.id}" onclick="selOpt('${o.id}')">${o.img?`<div class="ic"><img src="${imgSrc(o.img)}" style="width:40px;height:40px"></div>`:""}<div class="tt">${o.label}</div></div>`).join("")}</div><button class="btn btn-gold" onclick="submitChoice('${t.id}')">確認選擇</button>`;
