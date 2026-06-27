@@ -25,9 +25,9 @@ body{font-family:var(--sans);color:var(--foam);background:var(--abyss);line-heig
 @keyframes rise{to{transform:translateY(-110vh) translateX(var(--dx,0));opacity:0}}
 #app{position:relative;z-index:2;max-width:680px;margin:0 auto;min-height:100%;display:flex;flex-direction:column;padding:0 20px 40px}
 #bar{position:sticky;top:0;z-index:5;display:none;align-items:center;gap:10px;padding:12px 14px;margin:0 -20px 18px;background:linear-gradient(var(--abyss),rgba(7,26,43,.86));border-bottom:1px solid rgba(95,227,208,.18);backdrop-filter:blur(6px)}
-#bar .crew{font-family:var(--serif);font-weight:700;font-size:15px;letter-spacing:.5px}
+#bar .crew{font-family:var(--serif);font-weight:700;font-size:15px;letter-spacing:.5px;min-width:0;flex:1 1 auto;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 #bar .crew small{display:block;font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:1px;font-weight:400}
-#barBtns{margin-left:auto;display:flex;gap:8px;align-items:center}
+#barBtns{margin-left:auto;display:flex;gap:8px;align-items:center;flex-shrink:0;max-width:62%;overflow:hidden}
 .bookbtn{font-family:var(--sans);font-size:12px;font-weight:700;color:var(--glow);background:rgba(95,227,208,.10);border:1px solid rgba(95,227,208,.4);border-radius:9px;padding:7px 10px;cursor:pointer}
 #inv{display:flex;gap:6px}
 .shard{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;border:1px solid rgba(143,179,191,.35);color:var(--muted);font-size:15px;background:rgba(13,43,62,.6);transition:.4s}
@@ -120,20 +120,24 @@ label.lbl{display:block;font-size:13px;color:var(--muted);margin-top:16px;letter
 <div id="sea"></div>
 <div id="flood">
   <div class="sky"></div>
-  <svg class="folder" viewBox="0 0 200 150" fill="none">
-    <rect x="14" y="34" width="172" height="104" rx="8" fill="#243049" stroke="#3b4a6b" stroke-width="2"/>
-    <path d="M14 44 q0-12 12-12 h44 l14 14 h90 q12 0 12 12 v4 H14Z" fill="#2f3e5e" stroke="#3b4a6b" stroke-width="2"/>
-    <rect x="40" y="72" width="120" height="8" rx="4" fill="#8fb6c9" opacity=".5"/>
-    <rect x="40" y="90" width="92" height="8" rx="4" fill="#8fb6c9" opacity=".35"/>
-    <rect x="40" y="108" width="70" height="8" rx="4" fill="#8fb6c9" opacity=".25"/>
+  <svg class="folder" viewBox="0 0 200 200" fill="none">
+    <circle cx="100" cy="100" r="94" fill="#1c2330" stroke="#d9a531" stroke-width="6"/>
+    <circle cx="100" cy="100" r="83" fill="none" stroke="#3b4a6b" stroke-width="2"/>
+    <circle cx="88" cy="86" r="34" fill="#243049"/>
+    <g stroke="#3b4a6b" stroke-width="2"><path d="M78 58V114M98 58V114M58 76H118M58 96H118"/></g>
+    <path d="M88 64c-10 0-17 8-17 17 0 12 17 27 17 27s17-15 17-27c0-9-7-17-17-17z" fill="#d9a531"/>
+    <circle cx="88" cy="81" r="6" fill="#1c2330"/>
+    <circle cx="88" cy="86" r="34" fill="none" stroke="#e9edf2" stroke-width="8"/>
+    <line x1="112" y1="110" x2="142" y2="140" stroke="#e9edf2" stroke-width="14" stroke-linecap="round"/>
+    <line x1="112" y1="110" x2="142" y2="140" stroke="#d9a531" stroke-width="5" stroke-linecap="round"/>
   </svg>
   <div class="stamp">CASE OPEN</div>
   <div class="ttl"><div class="k">機密 · 案件啟動</div><h1>神祕調查局</h1></div>
   <button class="skip" onclick="endFlood()">略過 ▸</button>
 </div>
-<div id="bar"><div class="crew" id="crewName">—</div>
+<div id="app"><div id="bar"><div class="crew" id="crewName">—</div>
   <div id="barBtns"><span id="qBadge" class="qbadge" style="display:none"></span><button class="bookbtn" onclick="openBook()">📜 線索簿</button><div id="inv"></div></div></div>
-<div id="app"><div id="screen" class="screen"></div></div>
+<div id="screen" class="screen"></div></div>
 <div id="book"><div class="panel"><h3>線索簿</h3><div class="sub">已得到的線索都記在這。卡關時調查局會慢慢給更明確的情報。</div><div id="bookList"></div>
   <button class="btn btn-ghost" onclick="closeBook()">關閉</button></div></div>
 <div id="toast"></div>
@@ -181,7 +185,7 @@ const DEFAULT_STORY = {
   ],
   prologue:{
     intro:{ who:"system", label:"出發", text:"讀懂第一條線索，走過去查看（測試時用 🧪 面板『模擬抵達』即可）。" },
-    fragments:{ A:{ img:"seed", startTask:"d_a", clue:"先到『示範現場一號』。",
+    fragments:{ A:{ img:"logo", startTask:"d_a", clue:"先到『示範現場一號』。",
       clueHints:[ {after:30,text:"代碼 DEMO_A。"}, {after:60,text:"用 🧪 面板模擬抵達，或輸入 DEMO_A。"} ] } }
   },
   flowMode:"conditional",
@@ -218,7 +222,8 @@ const SVGS = {
   snow:`<svg viewBox="0 0 80 80"><g stroke="#aac7d4" stroke-width="3"><path d="M40 12v56M16 26l48 28M64 26L16 54"/></g></svg>`,
   shapes6:`<svg viewBox="0 0 300 150"><g stroke="#1c2330" stroke-width="2"><polygon points="35,18 55,52 15,52" fill="#d9a531"/><polygon points="95,14 117,52 73,52" fill="#d9a531"/><polygon points="165,20 187,55 143,55" fill="#d9a531"/><polygon points="45,86 67,124 23,124" fill="#d9a531"/><polygon points="120,92 142,128 98,128" fill="#d9a531"/><polygon points="255,88 277,126 233,126" fill="#d9a531"/><circle cx="220" cy="34" r="17" fill="#8fb6c9"/><circle cx="265" cy="40" r="14" fill="#8fb6c9"/><circle cx="195" cy="112" r="17" fill="#8fb6c9"/><rect x="178" y="78" width="34" height="34" rx="4" fill="#aac7d4"/><rect x="232" y="16" width="30" height="30" rx="4" fill="#aac7d4"/></g></svg>`,
   rings:`<svg viewBox="0 0 120 90"><g fill="none" stroke="#8fb6c9" stroke-width="4"><circle cx="60" cy="45" r="10"/><circle cx="60" cy="45" r="20"/><circle cx="60" cy="45" r="30"/><circle cx="60" cy="45" r="40"/></g></svg>`,
-  steps:`<svg viewBox="0 0 120 90"><g fill="#d9a531"><rect x="14" y="62" width="26" height="16"/><rect x="40" y="46" width="26" height="32"/><rect x="66" y="30" width="26" height="48"/><rect x="92" y="14" width="14" height="64"/></g></svg>`
+  steps:`<svg viewBox="0 0 120 90"><g fill="#d9a531"><rect x="14" y="62" width="26" height="16"/><rect x="40" y="46" width="26" height="32"/><rect x="66" y="30" width="26" height="48"/><rect x="92" y="14" width="14" height="64"/></g></svg>`,
+  logo:`<svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="94" fill="#1c2330" stroke="#d9a531" stroke-width="6"/><circle cx="100" cy="100" r="83" fill="none" stroke="#3b4a6b" stroke-width="2"/><circle cx="88" cy="86" r="34" fill="#243049"/><g stroke="#3b4a6b" stroke-width="2"><path d="M78 58V114M98 58V114M58 76H118M58 96H118"/></g><path d="M88 64c-10 0-17 8-17 17 0 12 17 27 17 27s17-15 17-27c0-9-7-17-17-17z" fill="#d9a531"/><circle cx="88" cy="81" r="6" fill="#1c2330"/><circle cx="88" cy="86" r="34" fill="none" stroke="#e9edf2" stroke-width="8"/><line x1="112" y1="110" x2="142" y2="140" stroke="#e9edf2" stroke-width="14" stroke-linecap="round"/><line x1="112" y1="110" x2="142" y2="140" stroke="#d9a531" stroke-width="5" stroke-linecap="round"/></svg>`
 };
 function svg(name){ const s=(SVGS[name]||"").replace(/\n/g,""); return s ? "data:image/svg+xml;charset=utf-8,"+encodeURIComponent(s) : ""; }
 function imgSrc(v){ if(typeof v!=="string"||!v) return ""; return /^(https?:|data:)/.test(v) ? v : svg(v); }
