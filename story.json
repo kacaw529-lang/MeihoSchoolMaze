@@ -1,0 +1,1505 @@
+{
+  "meta": {
+    "id": "meihe-bug-detective",
+    "title": "校園昆蟲偵探",
+    "theme": "昆蟲偵探社 × 校園自然觀察",
+    "voice": "探員筆記"
+  },
+  "nav": "clueDriven",
+  "backend": {
+    "url": "",
+    "logGps": true,
+    "gpsIntervalSec": 15
+  },
+  "items": {
+    "a6": {
+      "label": "觀察編號 6",
+      "glyph": "6"
+    },
+    "a4": {
+      "label": "觀察編號 4",
+      "glyph": "4"
+    },
+    "a3": {
+      "label": "觀察編號 3",
+      "glyph": "3"
+    },
+    "a2": {
+      "label": "觀察編號 2",
+      "glyph": "2"
+    },
+    "b7": {
+      "label": "觀察編號 7",
+      "glyph": "7"
+    },
+    "b8": {
+      "label": "觀察編號 8",
+      "glyph": "8"
+    },
+    "b4": {
+      "label": "觀察編號 4",
+      "glyph": "4"
+    },
+    "b2": {
+      "label": "觀察編號 2",
+      "glyph": "2"
+    }
+  },
+  "intro": [
+    {
+      "who": "third",
+      "label": "偵探社情報",
+      "text": "昆蟲偵探社收到情報：校園裡藏著四隻特別的昆蟲，每找到一隻，就會留下一個『觀察編號』。"
+    },
+    {
+      "who": "first",
+      "label": "社長叮嚀",
+      "text": "別急著亂翻——情報只會一點一點浮現。看現場的氣味、聲音、樣子，推理出昆蟲在哪。"
+    },
+    {
+      "who": "system",
+      "label": "任務說明",
+      "text": "你們這隊只認得自己的線索（掃到別隊的點會被擋下）。每個線索是一段慢慢清楚的目擊畫面；看不懂就等一下。集滿四個觀察編號，回到四年級教室『成長樹』布告欄輸入密碼破案。提醒：別看到 QR 就亂掃，順著線索走才不會白跑。"
+    }
+  ],
+  "prologue": {
+    "intro": {
+      "who": "system",
+      "label": "出發",
+      "text": "讀第一條目擊情報，想想那是校園的哪裡，走過去查看。看不懂就等一下，畫面會更清楚。別跟著別隊跑。"
+    },
+    "fragments": {
+      "A": {
+        "img": "seed",
+        "startTask": "a_sp1",
+        "clue": "紅蟻隊：牆角有幾隻小蟲爬過，循著牆走……第一個現場在保健室附近。",
+        "clueHints": [
+          {
+            "after": 30,
+            "text": "牆上有張寫著 1925、唸起來像『依舊愛我』的公告。"
+          },
+          {
+            "after": 60,
+            "text": "保健室旁的 1925 公告——從那裡開始查。"
+          }
+        ]
+      },
+      "B": {
+        "img": "seed",
+        "startTask": "b_sp1",
+        "clue": "瓢蟲隊：一片黃色映入眼簾，在走廊盡頭……第一個現場在那扇拉門。",
+        "clueHints": [
+          {
+            "after": 30,
+            "text": "花架走廊走到底，一間教室的拉門上貼著黃色壁報紙。"
+          },
+          {
+            "after": 60,
+            "text": "黃色壁報的教室拉門——從那裡開始查。"
+          }
+        ]
+      }
+    }
+  },
+  "flowMode": "conditional",
+  "groups": [
+    {
+      "id": "A",
+      "name": "紅蟻偵探隊"
+    },
+    {
+      "id": "B",
+      "name": "瓢蟲偵探隊"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "a_sp1",
+      "group": "A",
+      "name": "目擊現場",
+      "trigger": {
+        "type": "qr",
+        "qr": "A_SIGN1925"
+      },
+      "unlock": {
+        "type": "always"
+      },
+      "narrative": [
+        {
+          "who": "first",
+          "label": "昆蟲檔案",
+          "text": "牆角有幾隻小蟲爬過。先考考你：下面哪一種才是『昆蟲』？"
+        }
+      ],
+      "hints": [
+        {
+          "after": 18,
+          "who": "first",
+          "label": "提示",
+          "text": "昆蟲有 6 隻腳、身體分頭胸腹。"
+        },
+        {
+          "after": 42,
+          "who": "first",
+          "label": "提示",
+          "text": "蜘蛛 8 腳、蜈蚣很多腳，都不是昆蟲。"
+        }
+      ],
+      "response": {
+        "type": "choice",
+        "prompt": "哪一個是昆蟲？",
+        "options": [
+          {
+            "id": "ant",
+            "label": "螞蟻"
+          },
+          {
+            "id": "spider",
+            "label": "蜘蛛"
+          },
+          {
+            "id": "centipede",
+            "label": "蜈蚣"
+          }
+        ]
+      },
+      "validation": {
+        "type": "choice",
+        "value": "ant",
+        "successText": "沒錯！螞蟻是昆蟲。新的目擊畫面浮現…… 咦……這裡好像還留著一樣東西——一根還沾著水的羽毛。先收進線索簿。",
+        "failText": "想想：6 隻腳、頭胸腹三段的才是昆蟲。"
+      },
+      "onComplete": {
+        "clueText": "情報說，那隻昆蟲總在水邊出沒，點一下水面又飛走……",
+        "clueHints": [
+          {
+            "after": 30,
+            "text": "一個養著水草、邊上還站著一隻低頭白色水鳥的水池？"
+          },
+          {
+            "after": 60,
+            "text": "水生池？白鷺旁邊？下一個現場是不是那裡？"
+          }
+        ]
+      }
+    },
+    {
+      "id": "a_item1",
+      "group": "A",
+      "name": "昆蟲現場 · 蜻蜓",
+      "trigger": {
+        "type": "qr",
+        "qr": "A_POND"
+      },
+      "unlock": {
+        "type": "afterTasks",
+        "value": [
+          "a_sp1"
+        ]
+      },
+      "narrative": [
+        {
+          "who": "third",
+          "label": "現場",
+          "text": "一隻蜻蜓停在水草上，翅膀透明。"
+        },
+        {
+          "who": "first",
+          "label": "昆蟲檔案",
+          "text": "蜻蜓是昆蟲。記下牠的『觀察編號』——"
+        }
+      ],
+      "hints": [
+        {
+          "after": 18,
+          "who": "first",
+          "label": "提示",
+          "text": "所有昆蟲的腳數目都一樣。"
+        },
+        {
+          "after": 42,
+          "who": "first",
+          "label": "提示",
+          "text": "昆蟲有 6 隻腳。"
+        }
+      ],
+      "response": {
+        "type": "number",
+        "prompt": "所有昆蟲都有幾隻腳？（這就是觀察編號）"
+      },
+      "validation": {
+        "type": "exact",
+        "value": "6",
+        "successText": "觀察編號 6 記入檔案！ 咦……這裡好像還留著一樣東西——一個被丟掉的寶特瓶蓋。先收進線索簿。",
+        "failText": "昆蟲有 6 隻腳。"
+      },
+      "onComplete": {
+        "clueText": "叮叮、咚咚……瓶罐互相碰撞的聲音，循聲走過去……",
+        "clueHints": [
+          {
+            "after": 30,
+            "text": "廚房後面，把瓶罐、紙箱分類堆放的房間？"
+          },
+          {
+            "after": 60,
+            "text": "資源回收室？下一條線索是不是在那？"
+          }
+        ],
+        "give": "a6"
+      },
+      "lockedText": "你來得太早了——案情還沒到這裡。線索簿裡還缺『一根還沾著水的羽毛』，先到別的現場查到它，再照順序回來。"
+    },
+    {
+      "id": "a_sp2",
+      "group": "A",
+      "name": "目擊現場",
+      "trigger": {
+        "type": "qr",
+        "qr": "A_RECYCLE"
+      },
+      "unlock": {
+        "type": "afterTasks",
+        "value": [
+          "a_item1"
+        ]
+      },
+      "narrative": [
+        {
+          "who": "first",
+          "label": "昆蟲檔案",
+          "text": "回收桶邊有毛毛蟲爬過。毛毛蟲是蝴蝶的小時候——牠最愛吃什麼？"
+        }
+      ],
+      "hints": [
+        {
+          "after": 18,
+          "who": "first",
+          "label": "提示",
+          "text": "想想菜園裡的菜葉常被誰咬出洞。"
+        },
+        {
+          "after": 42,
+          "who": "first",
+          "label": "提示",
+          "text": "牠啃的是綠色的葉子。"
+        }
+      ],
+      "response": {
+        "type": "choice",
+        "prompt": "毛毛蟲（蝴蝶幼蟲）主要吃什麼？",
+        "options": [
+          {
+            "id": "leaf",
+            "label": "葉子"
+          },
+          {
+            "id": "nectar",
+            "label": "花蜜"
+          },
+          {
+            "id": "wood",
+            "label": "木頭"
+          }
+        ]
+      },
+      "validation": {
+        "type": "choice",
+        "value": "leaf",
+        "successText": "答對！新的目擊畫面浮現…… 咦……這裡好像還留著一樣東西——一片白色的花瓣。先收進線索簿。",
+        "failText": "毛毛蟲啃食葉子；花蜜是長大後的蝴蝶才吸。"
+      },
+      "onComplete": {
+        "clueText": "一陣花香……白色花瓣、黃色花心，蝴蝶繞著它飛……",
+        "clueHints": [
+          {
+            "after": 30,
+            "text": "大家叫它『雞蛋花』，樹上掛著一張小小的說明吊牌？"
+          },
+          {
+            "after": 60,
+            "text": "緬梔花？雞蛋花的吊牌？昆蟲在那嗎？"
+          }
+        ]
+      },
+      "lockedText": "你來得太早了——案情還沒到這裡。線索簿裡還缺『一個被丟掉的寶特瓶蓋』，先到別的現場查到它，再照順序回來。"
+    },
+    {
+      "id": "a_item2",
+      "group": "A",
+      "name": "昆蟲現場 · 蝴蝶",
+      "trigger": {
+        "type": "qr",
+        "qr": "A_PLUMERIA"
+      },
+      "unlock": {
+        "type": "afterTasks",
+        "value": [
+          "a_sp2"
+        ]
+      },
+      "narrative": [
+        {
+          "who": "third",
+          "label": "現場",
+          "text": "一隻蝴蝶停在雞蛋花上，慢慢開合翅膀。"
+        },
+        {
+          "who": "first",
+          "label": "昆蟲檔案",
+          "text": "數數看牠的翅膀——前後各一對。"
+        }
+      ],
+      "hints": [
+        {
+          "after": 18,
+          "who": "first",
+          "label": "提示",
+          "text": "前面一對、後面一對。"
+        },
+        {
+          "after": 42,
+          "who": "first",
+          "label": "提示",
+          "text": "2 對就是 4 片。"
+        }
+      ],
+      "response": {
+        "type": "number",
+        "prompt": "一隻蝴蝶有幾片翅膀？（這就是觀察編號）"
+      },
+      "validation": {
+        "type": "exact",
+        "value": "4",
+        "successText": "觀察編號 4 記入檔案！ 咦……這裡好像還留著一樣東西——一塊涼涼的小磁磚。先收進線索簿。",
+        "failText": "前後各一對，共 4 片。"
+      },
+      "onComplete": {
+        "clueText": "太陽從一根柱子後面升起，灑進一座小亭子……",
+        "clueHints": [
+          {
+            "after": 30,
+            "text": "校園南邊可以遮陽的亭子，柱子正對著日出的方向（東）？"
+          },
+          {
+            "after": 60,
+            "text": "南方涼亭？朝東的柱子？下一條線索在那？"
+          }
+        ],
+        "give": "a4"
+      },
+      "lockedText": "你來得太早了——案情還沒到這裡。線索簿裡還缺『一片白色的花瓣』，先到別的現場查到它，再照順序回來。"
+    },
+    {
+      "id": "a_sp3",
+      "group": "A",
+      "name": "目擊現場",
+      "trigger": {
+        "type": "qr",
+        "qr": "A_PAVILION"
+      },
+      "unlock": {
+        "type": "afterTasks",
+        "value": [
+          "a_item2"
+        ]
+      },
+      "narrative": [
+        {
+          "who": "first",
+          "label": "昆蟲檔案",
+          "text": "亭邊花叢裡，蜜蜂飛來飛去、停在花上又飛走。牠這樣做，幫了花朵一個大忙——是什麼忙？"
+        }
+      ],
+      "hints": [
+        {
+          "after": 20,
+          "who": "first",
+          "label": "提示",
+          "text": "蜜蜂身上沾了黃黃的粉，帶到別朵花上。"
+        },
+        {
+          "after": 45,
+          "who": "first",
+          "label": "提示",
+          "text": "讓花結果、繁殖的關鍵動作。"
+        }
+      ],
+      "response": {
+        "type": "text",
+        "prompt": "蜜蜂在花間飛來飛去，幫花朵做了什麼重要的事？（兩個字）"
+      },
+      "validation": {
+        "type": "keywords",
+        "value": [
+          "傳粉",
+          "授粉",
+          "花粉",
+          "傳播花粉"
+        ],
+        "successText": "正是傳粉！新的目擊畫面浮現…… 咦……這裡好像還留著一樣東西——一顆遺留的種子。先收進線索簿。",
+        "failText": "牠把花粉從一朵花帶到另一朵——這叫『傳粉（授粉）』。"
+      },
+      "onComplete": {
+        "clueText": "嗡嗡嗡……一群小果蠅圍著一陣果香打轉……",
+        "clueHints": [
+          {
+            "after": 30,
+            "text": "一棵結實累累、果實還套著保護袋的樹，旁邊飄著廚餘味？"
+          },
+          {
+            "after": 60,
+            "text": "木瓜樹？廚餘桶旁？昆蟲現場是不是在那？"
+          }
+        ]
+      },
+      "lockedText": "你來得太早了——案情還沒到這裡。線索簿裡還缺『一塊涼涼的小磁磚』，先到別的現場查到它，再照順序回來。"
+    },
+    {
+      "id": "a_item3",
+      "group": "A",
+      "name": "昆蟲現場 · 果蠅",
+      "trigger": {
+        "type": "qr",
+        "qr": "A_PAPAYA"
+      },
+      "unlock": {
+        "type": "afterTasks",
+        "value": [
+          "a_sp3"
+        ]
+      },
+      "narrative": [
+        {
+          "who": "third",
+          "label": "現場",
+          "text": "熟木瓜旁聚著一群小果蠅。"
+        },
+        {
+          "who": "first",
+          "label": "昆蟲檔案",
+          "text": "再複習一次昆蟲的身體：分成頭、胸、腹——"
+        }
+      ],
+      "hints": [
+        {
+          "after": 18,
+          "who": "first",
+          "label": "提示",
+          "text": "頭、胸、腹，數一數。"
+        },
+        {
+          "after": 42,
+          "who": "first",
+          "label": "提示",
+          "text": "共 3 個部分。"
+        }
+      ],
+      "response": {
+        "type": "number",
+        "prompt": "昆蟲的身體分成幾個部分（頭、胸、腹）？（這就是觀察編號）"
+      },
+      "validation": {
+        "type": "exact",
+        "value": "3",
+        "successText": "觀察編號 3 記入檔案！ 咦……這裡好像還留著一樣東西——一張寫著『1』的小紙片。先收進線索簿。",
+        "failText": "頭、胸、腹，共 3 部分。"
+      },
+      "onComplete": {
+        "clueText": "一個又高又直的影子立在那裡，像一個站著的數字『1』……",
+        "clueHints": [
+          {
+            "after": 30,
+            "text": "每天上學第一個經過、全校最大的那道門？"
+          },
+          {
+            "after": 60,
+            "text": "校門口？像 1 的大門？下一條線索在那嗎？"
+          }
+        ],
+        "give": "a3"
+      },
+      "lockedText": "你來得太早了——案情還沒到這裡。線索簿裡還缺『一顆遺留的種子』，先到別的現場查到它，再照順序回來。"
+    },
+    {
+      "id": "a_sp4",
+      "group": "A",
+      "name": "目擊現場",
+      "trigger": {
+        "type": "either",
+        "gps": {
+          "lat": 22.6876587,
+          "lng": 121.0450066,
+          "radius": 25
+        },
+        "qr": "A_GATE"
+      },
+      "unlock": {
+        "type": "afterTasks",
+        "value": [
+          "a_item3"
+        ]
+      },
+      "narrative": [
+        {
+          "who": "first",
+          "label": "昆蟲檔案",
+          "text": "門柱上爬著一隻背殼的小東西，慢吞吞的。考你：下面哪一個『不是』昆蟲？"
+        }
+      ],
+      "hints": [
+        {
+          "after": 20,
+          "who": "first",
+          "label": "提示",
+          "text": "昆蟲要 6 隻腳、頭胸腹三段。"
+        },
+        {
+          "after": 45,
+          "who": "first",
+          "label": "提示",
+          "text": "背著殼、軟軟身體的那個不是昆蟲。"
+        }
+      ],
+      "response": {
+        "type": "choice",
+        "prompt": "哪一個『不是』昆蟲？",
+        "options": [
+          {
+            "id": "ladybug",
+            "label": "瓢蟲"
+          },
+          {
+            "id": "butterfly",
+            "label": "蝴蝶"
+          },
+          {
+            "id": "snail",
+            "label": "蝸牛"
+          }
+        ]
+      },
+      "validation": {
+        "type": "choice",
+        "value": "snail",
+        "successText": "對！蝸牛是軟體動物，不是昆蟲。新畫面浮現…… 咦……這裡好像還留著一樣東西——一小片帶著樟腦香的樹皮。先收進線索簿。",
+        "failText": "瓢蟲、蝴蝶都是昆蟲；蝸牛背殼、沒有腳，不是昆蟲。"
+      },
+      "onComplete": {
+        "clueText": "一股樟腦的清香，從圍牆邊一棵大樹飄來……",
+        "clueHints": [
+          {
+            "after": 30,
+            "text": "樹幹長到一半分岔成兩股、像個 Y 字，甲蟲常躲在樹皮裡？"
+          },
+          {
+            "after": 60,
+            "text": "開岔的樟樹？圍牆旁？最後一隻昆蟲在那嗎？"
+          }
+        ]
+      },
+      "lockedText": "你來得太早了——案情還沒到這裡。線索簿裡還缺『一張寫著『1』的小紙片』，先到別的現場查到它，再照順序回來。"
+    },
+    {
+      "id": "a_item4",
+      "group": "A",
+      "name": "昆蟲現場 · 甲蟲",
+      "trigger": {
+        "type": "either",
+        "gps": {
+          "lat": 22.6875519,
+          "lng": 121.0444092,
+          "radius": 25
+        },
+        "qr": "A_CAMPHOR"
+      },
+      "unlock": {
+        "type": "afterTasks",
+        "value": [
+          "a_sp4"
+        ]
+      },
+      "narrative": [
+        {
+          "who": "third",
+          "label": "現場",
+          "text": "樹皮縫裡探出一隻甲蟲的觸角。"
+        },
+        {
+          "who": "first",
+          "label": "昆蟲檔案",
+          "text": "看牠頭上那兩根用來聞味道、感覺方向的東西——"
+        }
+      ],
+      "hints": [
+        {
+          "after": 18,
+          "who": "first",
+          "label": "提示",
+          "text": "頭上一對，用來感覺。"
+        },
+        {
+          "after": 42,
+          "who": "first",
+          "label": "提示",
+          "text": "觸角有 2 根。"
+        }
+      ],
+      "response": {
+        "type": "number",
+        "prompt": "昆蟲頭上有幾根觸角？（這就是觀察編號）"
+      },
+      "validation": {
+        "type": "exact",
+        "value": "2",
+        "successText": "觀察編號 2 記入檔案，四隻昆蟲全找到了！",
+        "failText": "昆蟲有一對（2 根）觸角。"
+      },
+      "onComplete": {
+        "give": "a2",
+        "clueText": "四個觀察編號到手了！帶回偵探社，拼出破案密碼……",
+        "clueHints": [
+          {
+            "after": 30,
+            "text": "一面貼著『成長樹』的布告欄，就在你們最熟悉的教室裡……"
+          },
+          {
+            "after": 60,
+            "text": "成長樹布告欄？回四年級教室，輸入密碼破案！"
+          }
+        ]
+      },
+      "lockedText": "你來得太早了——案情還沒到這裡。線索簿裡還缺『一小片帶著樟腦香的樹皮』，先到別的現場查到它，再照順序回來。"
+    },
+    {
+      "id": "core_A",
+      "group": "A",
+      "name": "偵探社 · 成長樹布告欄",
+      "trigger": {
+        "type": "qr",
+        "qr": "HQ4"
+      },
+      "unlock": {
+        "type": "requiresItems",
+        "value": [
+          "a6",
+          "a4",
+          "a3",
+          "a2"
+        ]
+      },
+      "narrative": [
+        {
+          "who": "system",
+          "label": "破案",
+          "text": "紅蟻隊的四個觀察編號：6、4、3、2。"
+        },
+        {
+          "who": "first",
+          "label": "社長",
+          "text": "把它們由小到大排成四位數，就是破案密碼。"
+        }
+      ],
+      "hints": [
+        {
+          "after": 25,
+          "who": "first",
+          "label": "提示",
+          "text": "由小到大：2、3、4、6。"
+        },
+        {
+          "after": 55,
+          "who": "first",
+          "label": "提示",
+          "text": "密碼是 2346。"
+        }
+      ],
+      "response": {
+        "type": "number",
+        "prompt": "把 6、4、3、2 由小到大排成四位數密碼："
+      },
+      "validation": {
+        "type": "exact",
+        "value": "2346",
+        "successText": "破案！昆蟲偵探社為你們鼓掌。",
+        "failText": "由小到大：2、3、4、6。"
+      },
+      "onComplete": {
+        "end": true
+      }
+    },
+    {
+      "id": "b_sp1",
+      "group": "B",
+      "name": "目擊現場",
+      "trigger": {
+        "type": "qr",
+        "qr": "B_DOOR"
+      },
+      "unlock": {
+        "type": "always"
+      },
+      "narrative": [
+        {
+          "who": "first",
+          "label": "昆蟲檔案",
+          "text": "壁報上畫著螢火蟲。情報問：螢火蟲喜歡乾淨還是骯髒的環境？"
+        }
+      ],
+      "hints": [
+        {
+          "after": 20,
+          "who": "first",
+          "label": "提示",
+          "text": "水髒了、被汙染了，螢火蟲就會消失。"
+        },
+        {
+          "after": 45,
+          "who": "first",
+          "label": "提示",
+          "text": "牠是環境好不好的指標——喜歡乾淨。"
+        }
+      ],
+      "response": {
+        "type": "text",
+        "prompt": "螢火蟲喜歡乾淨還是骯髒的環境？（兩個字）"
+      },
+      "validation": {
+        "type": "keywords",
+        "value": [
+          "乾淨",
+          "清澈",
+          "乾淨的",
+          "清潔"
+        ],
+        "successText": "對，乾淨！新的目擊畫面浮現…… 咦……這裡好像還留著一樣東西——一片愛心形狀的落葉。先收進線索簿。",
+        "failText": "螢火蟲需要乾淨、沒被汙染的環境才活得下去。"
+      },
+      "onComplete": {
+        "clueText": "一片葉子輕輕飄落……圓圓的、尾巴尖尖，像一顆愛心……",
+        "clueHints": [
+          {
+            "after": 30,
+            "text": "一棵葉子長得像愛心的樹，叫做烏臼，瓢蟲停在葉上？"
+          },
+          {
+            "after": 60,
+            "text": "愛心葉片？烏臼？瓢蟲在那嗎？"
+          }
+        ]
+      }
+    },
+    {
+      "id": "b_item1",
+      "group": "B",
+      "name": "昆蟲現場 · 瓢蟲",
+      "trigger": {
+        "type": "qr",
+        "qr": "B_WUTONG"
+      },
+      "unlock": {
+        "type": "afterTasks",
+        "value": [
+          "b_sp1"
+        ]
+      },
+      "narrative": [
+        {
+          "who": "third",
+          "label": "現場",
+          "text": "一隻紅底黑點的七星瓢蟲停在愛心形的葉子上。"
+        },
+        {
+          "who": "first",
+          "label": "昆蟲檔案",
+          "text": "數數看牠背上的黑點——『七星』瓢蟲。"
+        }
+      ],
+      "hints": [
+        {
+          "after": 18,
+          "who": "first",
+          "label": "提示",
+          "text": "名字裡就藏著答案。"
+        },
+        {
+          "after": 42,
+          "who": "first",
+          "label": "提示",
+          "text": "『七』星＝7 個點。"
+        }
+      ],
+      "response": {
+        "type": "number",
+        "prompt": "七星瓢蟲背上有幾個黑點？（這就是觀察編號）"
+      },
+      "validation": {
+        "type": "exact",
+        "value": "7",
+        "successText": "觀察編號 7 記入檔案！ 咦……這裡好像還留著一樣東西——一張掉在地上的計分小紙。先收進線索簿。",
+        "failText": "『七星』瓢蟲，背上 7 個點。"
+      },
+      "onComplete": {
+        "clueText": "操場上一排架子，有高有矮地站著……",
+        "clueHints": [
+          {
+            "after": 30,
+            "text": "其中個子最矮、籃框最好投的那一座？"
+          },
+          {
+            "after": 60,
+            "text": "最矮的籃球架？下一條線索在那嗎？"
+          }
+        ],
+        "give": "b7"
+      },
+      "lockedText": "你來得太早了——案情還沒到這裡。線索簿裡還缺『一片愛心形狀的落葉』，先到別的現場查到它，再照順序回來。"
+    },
+    {
+      "id": "b_sp2",
+      "group": "B",
+      "name": "目擊現場",
+      "trigger": {
+        "type": "either",
+        "gps": {
+          "lat": 22.6880741,
+          "lng": 121.0449738,
+          "radius": 25
+        },
+        "qr": "B_HOOP"
+      },
+      "unlock": {
+        "type": "afterTasks",
+        "value": [
+          "b_item1"
+        ]
+      },
+      "narrative": [
+        {
+          "who": "first",
+          "label": "昆蟲檔案",
+          "text": "草地上跳著一隻蝗蟲。蝗蟲是『不完全變態』，一生『沒有』經過哪一個階段？"
+        }
+      ],
+      "hints": [
+        {
+          "after": 20,
+          "who": "first",
+          "label": "提示",
+          "text": "蝴蝶才有的、會結繭不動的那個階段。"
+        },
+        {
+          "after": 45,
+          "who": "first",
+          "label": "提示",
+          "text": "蝗蟲：卵→若蟲→成蟲，沒有『蛹』。"
+        }
+      ],
+      "response": {
+        "type": "choice",
+        "prompt": "蝗蟲的一生『沒有』哪個階段？",
+        "options": [
+          {
+            "id": "pupa",
+            "label": "蛹"
+          },
+          {
+            "id": "egg",
+            "label": "卵"
+          },
+          {
+            "id": "adult",
+            "label": "成蟲"
+          }
+        ]
+      },
+      "validation": {
+        "type": "choice",
+        "value": "pupa",
+        "successText": "對！不完全變態沒有蛹期。新畫面浮現…… 咦……這裡好像還留著一樣東西——一顆白色的小石子。先收進線索簿。",
+        "failText": "不完全變態：卵→若蟲→成蟲，沒有『蛹』。"
+      },
+      "onComplete": {
+        "clueText": "腳下白白的小石子沙沙作響，角落結了一張蜘蛛網……",
+        "clueHints": [
+          {
+            "after": 30,
+            "text": "一面可以手腳並用往上爬的牆，底下鋪滿白石子？"
+          },
+          {
+            "after": 60,
+            "text": "攀岩器材？白石子？蜘蛛網在那嗎？"
+          }
+        ]
+      },
+      "lockedText": "你來得太早了——案情還沒到這裡。線索簿裡還缺『一張掉在地上的計分小紙』，先到別的現場查到它，再照順序回來。"
+    },
+    {
+      "id": "b_item2",
+      "group": "B",
+      "name": "現場 · 蜘蛛（陷阱！）",
+      "trigger": {
+        "type": "qr",
+        "qr": "B_CLIMB"
+      },
+      "unlock": {
+        "type": "afterTasks",
+        "value": [
+          "b_sp2"
+        ]
+      },
+      "narrative": [
+        {
+          "who": "third",
+          "label": "現場",
+          "text": "白石子上方的網中央，一隻蜘蛛正等著獵物。"
+        },
+        {
+          "who": "first",
+          "label": "昆蟲檔案",
+          "text": "小心這題：數數蜘蛛的腳——數目會告訴你『牠其實不是昆蟲』。"
+        }
+      ],
+      "hints": [
+        {
+          "after": 18,
+          "who": "first",
+          "label": "提示",
+          "text": "比昆蟲多兩隻。"
+        },
+        {
+          "after": 42,
+          "who": "first",
+          "label": "提示",
+          "text": "蜘蛛有 8 隻腳（所以不是昆蟲）。"
+        }
+      ],
+      "response": {
+        "type": "number",
+        "prompt": "蜘蛛有幾隻腳？（這就是觀察編號）"
+      },
+      "validation": {
+        "type": "exact",
+        "value": "8",
+        "successText": "觀察編號 8！順帶記住：8 隻腳的蜘蛛不是昆蟲。 咦……這裡好像還留著一樣東西——一張蓋了章的公文紙。先收進線索簿。",
+        "failText": "蜘蛛有 8 隻腳——比昆蟲（6 隻）多。"
+      },
+      "onComplete": {
+        "clueText": "往上走，天花板上有一條線，一直往前延伸……",
+        "clueHints": [
+          {
+            "after": 30,
+            "text": "順著二樓走廊的線槽走到最底，最重要的那間辦公室？"
+          },
+          {
+            "after": 60,
+            "text": "校長室？二樓盡頭？下一條線索在那？"
+          }
+        ],
+        "give": "b8"
+      },
+      "lockedText": "你來得太早了——案情還沒到這裡。線索簿裡還缺『一顆白色的小石子』，先到別的現場查到它，再照順序回來。"
+    },
+    {
+      "id": "b_sp3",
+      "group": "B",
+      "name": "目擊現場",
+      "trigger": {
+        "type": "qr",
+        "qr": "B_PRINCIPAL"
+      },
+      "unlock": {
+        "type": "afterTasks",
+        "value": [
+          "b_item2"
+        ]
+      },
+      "narrative": [
+        {
+          "who": "first",
+          "label": "昆蟲檔案",
+          "text": "窗台上停著一隻蝴蝶。蝴蝶是『完全變態』——一生會經過卵、幼蟲、蛹、成蟲，共幾個階段？"
+        }
+      ],
+      "hints": [
+        {
+          "after": 20,
+          "who": "first",
+          "label": "提示",
+          "text": "卵、幼蟲、蛹、成蟲，一個一個數。"
+        },
+        {
+          "after": 45,
+          "who": "first",
+          "label": "提示",
+          "text": "共 4 個階段。"
+        }
+      ],
+      "response": {
+        "type": "number",
+        "prompt": "完全變態共有幾個階段（卵、幼蟲、蛹、成蟲）？"
+      },
+      "validation": {
+        "type": "exact",
+        "value": "4",
+        "successText": "對，4 個階段！新畫面浮現…… 咦……這裡好像還留著一樣東西——一小截鋸下的木屑。先收進線索簿。",
+        "failText": "卵、幼蟲、蛹、成蟲，共 4 個。"
+      },
+      "onComplete": {
+        "clueText": "一塊匾額……上面是和『讀書』有關的四個字……",
+        "clueHints": [
+          {
+            "after": 30,
+            "text": "『書香滿室』的牌子下方，堆著鋸下的樹幹，甲蟲幼蟲住在腐木裡？"
+          },
+          {
+            "after": 60,
+            "text": "書香滿室？樹幹堆？昆蟲在那嗎？"
+          }
+        ]
+      },
+      "lockedText": "你來得太早了——案情還沒到這裡。線索簿裡還缺『一張蓋了章的公文紙』，先到別的現場查到它，再照順序回來。"
+    },
+    {
+      "id": "b_item3",
+      "group": "B",
+      "name": "昆蟲現場 · 鍬形蟲",
+      "trigger": {
+        "type": "qr",
+        "qr": "B_LOGS"
+      },
+      "unlock": {
+        "type": "afterTasks",
+        "value": [
+          "b_sp3"
+        ]
+      },
+      "narrative": [
+        {
+          "who": "third",
+          "label": "現場",
+          "text": "腐木堆裡，一隻鍬形蟲的幼蟲蜷成 C 字。"
+        },
+        {
+          "who": "first",
+          "label": "昆蟲檔案",
+          "text": "牠也是完全變態。再確認一次階段數——"
+        }
+      ],
+      "hints": [
+        {
+          "after": 18,
+          "who": "first",
+          "label": "提示",
+          "text": "卵、幼蟲、蛹、成蟲。"
+        },
+        {
+          "after": 42,
+          "who": "first",
+          "label": "提示",
+          "text": "共 4 個階段。"
+        }
+      ],
+      "response": {
+        "type": "number",
+        "prompt": "完全變態的昆蟲一生經過幾個階段？（這就是觀察編號）"
+      },
+      "validation": {
+        "type": "exact",
+        "value": "4",
+        "successText": "觀察編號 4 記入檔案！ 咦……這裡好像還留著一樣東西——一支沾了顏料的畫筆。先收進線索簿。",
+        "failText": "卵、幼蟲、蛹、成蟲，共 4 個。"
+      },
+      "onComplete": {
+        "clueText": "一面色彩鮮豔的牆映入眼簾，畫著部落的圖案……",
+        "clueHints": [
+          {
+            "after": 30,
+            "text": "貼著『部落繪畫比賽』作品的那面布告欄？"
+          },
+          {
+            "after": 60,
+            "text": "部落繪畫？比賽布告欄？下一條線索在那嗎？"
+          }
+        ],
+        "give": "b4"
+      },
+      "lockedText": "你來得太早了——案情還沒到這裡。線索簿裡還缺『一小截鋸下的木屑』，先到別的現場查到它，再照順序回來。"
+    },
+    {
+      "id": "b_sp4",
+      "group": "B",
+      "name": "目擊現場",
+      "trigger": {
+        "type": "qr",
+        "qr": "B_TRIBEART"
+      },
+      "unlock": {
+        "type": "afterTasks",
+        "value": [
+          "b_item3"
+        ]
+      },
+      "narrative": [
+        {
+          "who": "first",
+          "label": "昆蟲檔案",
+          "text": "畫裡有好多小生物。最後考你：下面哪一個『不是』昆蟲？"
+        }
+      ],
+      "hints": [
+        {
+          "after": 20,
+          "who": "first",
+          "label": "提示",
+          "text": "昆蟲只有 6 隻腳。"
+        },
+        {
+          "after": 45,
+          "who": "first",
+          "label": "提示",
+          "text": "身體一節一節、腳超多的那個不是昆蟲。"
+        }
+      ],
+      "response": {
+        "type": "choice",
+        "prompt": "哪一個『不是』昆蟲？",
+        "options": [
+          {
+            "id": "centipede",
+            "label": "蜈蚣"
+          },
+          {
+            "id": "ant",
+            "label": "螞蟻"
+          },
+          {
+            "id": "ladybug",
+            "label": "瓢蟲"
+          }
+        ]
+      },
+      "validation": {
+        "type": "choice",
+        "value": "centipede",
+        "successText": "對！蜈蚣腳太多，不是昆蟲。最後的畫面浮現…… 咦……這裡好像還留著一樣東西——一片濕濕的菜葉。先收進線索簿。",
+        "failText": "螞蟻、瓢蟲是昆蟲；蜈蚣腳很多，不是昆蟲。"
+      },
+      "onComplete": {
+        "clueText": "潺潺水聲……魚在游，旁邊竟然長著菜……",
+        "clueHints": [
+          {
+            "after": 30,
+            "text": "上面種菜、下面養魚的裝置，在二樓樓梯轉角？"
+          },
+          {
+            "after": 60,
+            "text": "魚菜共生？二樓轉角？最後一隻昆蟲在那嗎？"
+          }
+        ]
+      },
+      "lockedText": "你來得太早了——案情還沒到這裡。線索簿裡還缺『一支沾了顏料的畫筆』，先到別的現場查到它，再照順序回來。"
+    },
+    {
+      "id": "b_item4",
+      "group": "B",
+      "name": "昆蟲現場 · 蜻蜓複眼",
+      "trigger": {
+        "type": "qr",
+        "qr": "B_FISH"
+      },
+      "unlock": {
+        "type": "afterTasks",
+        "value": [
+          "b_sp4"
+        ]
+      },
+      "narrative": [
+        {
+          "who": "third",
+          "label": "現場",
+          "text": "魚菜共生的水面上，一隻蜻蜓睜著大大的複眼。"
+        },
+        {
+          "who": "first",
+          "label": "昆蟲檔案",
+          "text": "昆蟲有『一對』複眼——一對是幾個？"
+        }
+      ],
+      "hints": [
+        {
+          "after": 18,
+          "who": "first",
+          "label": "提示",
+          "text": "一對＝左邊一個、右邊一個。"
+        },
+        {
+          "after": 42,
+          "who": "first",
+          "label": "提示",
+          "text": "一對是 2 個。"
+        }
+      ],
+      "response": {
+        "type": "number",
+        "prompt": "昆蟲有一對複眼，一對是幾個？（這就是觀察編號）"
+      },
+      "validation": {
+        "type": "exact",
+        "value": "2",
+        "successText": "觀察編號 2 記入檔案，四隻昆蟲全找到了！",
+        "failText": "一對就是 2 個。"
+      },
+      "onComplete": {
+        "give": "b2",
+        "clueText": "四個觀察編號到手了！帶回偵探社，拼出破案密碼……",
+        "clueHints": [
+          {
+            "after": 30,
+            "text": "一面貼著『成長樹』的布告欄，就在你們最熟悉的教室裡……"
+          },
+          {
+            "after": 60,
+            "text": "成長樹布告欄？回四年級教室，輸入密碼破案！"
+          }
+        ]
+      },
+      "lockedText": "你來得太早了——案情還沒到這裡。線索簿裡還缺『一片濕濕的菜葉』，先到別的現場查到它，再照順序回來。"
+    },
+    {
+      "id": "core_B",
+      "group": "B",
+      "name": "偵探社 · 成長樹布告欄",
+      "trigger": {
+        "type": "qr",
+        "qr": "HQ4"
+      },
+      "unlock": {
+        "type": "requiresItems",
+        "value": [
+          "b7",
+          "b8",
+          "b4",
+          "b2"
+        ]
+      },
+      "narrative": [
+        {
+          "who": "system",
+          "label": "破案",
+          "text": "瓢蟲隊的四個觀察編號：7、8、4、2。"
+        },
+        {
+          "who": "first",
+          "label": "社長",
+          "text": "把它們由小到大排成四位數，就是破案密碼。"
+        }
+      ],
+      "hints": [
+        {
+          "after": 25,
+          "who": "first",
+          "label": "提示",
+          "text": "由小到大：2、4、7、8。"
+        },
+        {
+          "after": 55,
+          "who": "first",
+          "label": "提示",
+          "text": "密碼是 2478。"
+        }
+      ],
+      "response": {
+        "type": "number",
+        "prompt": "把 7、8、4、2 由小到大排成四位數密碼："
+      },
+      "validation": {
+        "type": "exact",
+        "value": "2478",
+        "successText": "破案！昆蟲偵探社為你們鼓掌。",
+        "failText": "由小到大：2、4、7、8。"
+      },
+      "onComplete": {
+        "end": true
+      }
+    },
+    {
+      "id": "d_map",
+      "name": "世界地圖牆",
+      "trigger": {
+        "type": "qr",
+        "qr": "MAP0"
+      },
+      "unlock": {
+        "type": "always"
+      },
+      "narrative": [
+        {
+          "who": "first",
+          "label": "現場",
+          "text": "只是一幅世界地圖，沒有任何昆蟲的蹤跡。你大概是隨手亂掃才被引來。"
+        }
+      ],
+      "response": {
+        "type": "info",
+        "prompt": "（這裡沒有昆蟲。回線索簿，照畫面再想一次。）"
+      },
+      "validation": {
+        "type": "none",
+        "successText": "你空手離開，回到正路。"
+      },
+      "onComplete": {}
+    },
+    {
+      "id": "d_water",
+      "name": "停用的飲水機",
+      "trigger": {
+        "type": "qr",
+        "qr": "WATER0"
+      },
+      "unlock": {
+        "type": "always"
+      },
+      "narrative": [
+        {
+          "who": "first",
+          "label": "現場",
+          "text": "停用的飲水機，乾乾的，連螞蟻都不來。"
+        }
+      ],
+      "response": {
+        "type": "info",
+        "prompt": "（這裡沒有昆蟲。回線索簿，照畫面再想一次。）"
+      },
+      "validation": {
+        "type": "none",
+        "successText": "你空手離開，回到正路。"
+      },
+      "onComplete": {}
+    },
+    {
+      "id": "d_ac",
+      "name": "冷氣室外機",
+      "trigger": {
+        "type": "qr",
+        "qr": "AC0"
+      },
+      "unlock": {
+        "type": "always"
+      },
+      "narrative": [
+        {
+          "who": "first",
+          "label": "現場",
+          "text": "嗡嗡作響的室外機——那是機器的聲音，不是昆蟲。"
+        }
+      ],
+      "response": {
+        "type": "info",
+        "prompt": "（這裡沒有昆蟲。回線索簿，照畫面再想一次。）"
+      },
+      "validation": {
+        "type": "none",
+        "successText": "你空手離開，回到正路。"
+      },
+      "onComplete": {}
+    },
+    {
+      "id": "d_pole",
+      "name": "旗杆",
+      "trigger": {
+        "type": "qr",
+        "qr": "POLE0"
+      },
+      "unlock": {
+        "type": "always"
+      },
+      "narrative": [
+        {
+          "who": "first",
+          "label": "現場",
+          "text": "光禿禿的旗杆，沒花沒葉，昆蟲不會來。"
+        }
+      ],
+      "response": {
+        "type": "info",
+        "prompt": "（這裡沒有昆蟲。回線索簿，照畫面再想一次。）"
+      },
+      "validation": {
+        "type": "none",
+        "successText": "你空手離開，回到正路。"
+      },
+      "onComplete": {}
+    },
+    {
+      "id": "d_board",
+      "name": "布告欄",
+      "trigger": {
+        "type": "qr",
+        "qr": "BOARD0"
+      },
+      "unlock": {
+        "type": "always"
+      },
+      "narrative": [
+        {
+          "who": "first",
+          "label": "現場",
+          "text": "一面空白的布告欄，什麼都沒有。"
+        }
+      ],
+      "response": {
+        "type": "info",
+        "prompt": "（這裡沒有昆蟲。回線索簿，照畫面再想一次。）"
+      },
+      "validation": {
+        "type": "none",
+        "successText": "你空手離開，回到正路。"
+      },
+      "onComplete": {}
+    },
+    {
+      "id": "d_lemon",
+      "name": "檸檬樹",
+      "trigger": {
+        "type": "qr",
+        "qr": "LEMON0"
+      },
+      "unlock": {
+        "type": "always"
+      },
+      "narrative": [
+        {
+          "who": "first",
+          "label": "現場",
+          "text": "一棵長滿尖刺的檸檬樹——小心刺，這裡也沒有你要找的昆蟲。"
+        }
+      ],
+      "response": {
+        "type": "info",
+        "prompt": "（這裡沒有昆蟲。小心刺。回線索簿，照畫面再想一次。）"
+      },
+      "validation": {
+        "type": "none",
+        "successText": "你小心離開，回到正路。"
+      },
+      "onComplete": {}
+    }
+  ],
+  "ending": [
+    {
+      "who": "first",
+      "label": "社長 · 結案",
+      "text": "六隻腳、三段身體、一對觸角、一對複眼——你們用眼睛和推理，把校園的昆蟲一隻隻找了出來。"
+    },
+    {
+      "who": "third",
+      "label": "偵探社 · 結語",
+      "text": "案件偵破。原來最厲害的放大鏡，是仔細觀察的習慣。"
+    },
+    {
+      "who": "system",
+      "label": "任務完成",
+      "text": "（老師：剛剛練到了昆蟲的構造與辨識、完全/不完全變態、棲地與食性、生物與環境，以及觀察與比較。）"
+    }
+  ]
+}
